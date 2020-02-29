@@ -1,12 +1,9 @@
 module Main where
 
 import Prelude
-import Concur.React.DOM as D
 import Concur.React.Run (runWidgetInDom)
 import Effect (Effect)
-
-
+import Glossary as Glossary
 
 main :: Effect Unit
-main = runWidgetInDom "root" $ D.text "Hello delvident"
-
+main = runWidgetInDom "root" $ Glossary.samplePageWidget
