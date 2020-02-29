@@ -18,24 +18,30 @@ entryList = toClasses ""
 
 -- New Entry
 newEntry :: forall a. P.ReactProps a
-newEntry = toClasses ""
+newEntry = toClasses "flex flex-column"
+
+textEntryStyle :: forall a. P.ReactProps a
+textEntryStyle = toClasses "input-reset pa2 ba br1 mv2"
 
 newEntryTerm :: forall a. P.ReactProps a
-newEntryTerm = toClasses ""
+newEntryTerm = textEntryStyle
 
 newEntryDefinition :: forall a. P.ReactProps a
-newEntryDefinition = toClasses ""
+newEntryDefinition = textEntryStyle
 
 newEntrySubmit :: forall a. P.ReactProps a
-newEntrySubmit = toClasses ""
+newEntrySubmit = toClasses "pv2 ph3 br2 bg-dark-blue white hover-bg-navy hover-near-white center"
 
 -- Glossary
 glossary :: forall a. P.ReactProps a
 glossary = toClasses ""
 
 -- Page
+title :: forall a. P.ReactProps a
+title = toClasses "pl3 f-title f-subheadline-l lh-title bl bw3 bw4-l"
+
 page :: forall a. P.ReactProps a
-page = toClasses ""
+page = toClasses "center ph4-ns ph3 mw8 mv3 avenir"
 
 -- Util
 toClasses :: forall a. String -> P.ReactProps a
