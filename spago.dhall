@@ -4,6 +4,14 @@ You can edit this file as you like.
 -}
 { sources = [ "src/**/*.purs", "test/**/*.purs" ]
 , name = "delvident"
-, dependencies = [ "effect", "console", "concur-core", "concur-react" ]
+, dependencies =
+  [ "aff"
+  , "aff-promise"
+  , "concur-core"
+  , "concur-react"
+  , "console"
+  , "effect"
+  , "foreign"
+  ]
 , packages = ./packages.dhall
 }
