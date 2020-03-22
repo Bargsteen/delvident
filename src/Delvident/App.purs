@@ -1,4 +1,4 @@
-module Glossary where
+module Delvident.App where
 
 import Prelude
 import Concur.Core (Widget)
@@ -7,12 +7,9 @@ import Concur.React.DOM as D
 import Concur.React.Props as P
 import Data.Array (cons, sortWith)
 import Effect.Class (liftEffect)
-import Style as S
-import Persistence as Persistence
-import GlossaryData (Entry)
-
-collectionName :: String
-collectionName = "glossary"
+import Delvident.Styles as S
+import Delvident.Types (NewEntry, Entry)
+import Delvident.AJAX as AJ
 
 entryWidget :: forall a. Entry -> Widget HTML a
 entryWidget entry =
@@ -28,7 +25,7 @@ data NewEntryAction
   | Definition String
   | Submit
 
-newEntryWidget :: Entry -> Widget HTML Entry
+newEntryWidget :: NewEntry -> Widget HTML NewEntry
 newEntryWidget entry = do
   res <-
     D.div [ S.newEntry ]
@@ -41,8 +38,8 @@ newEntryWidget entry = do
     Term t -> newEntryWidget (entry { term = t })
     Definition d -> newEntryWidget (entry { definition = d })
     Submit -> do
-      liftEffect $ Persistence.createEntry collectionName entry
-      pure entry
+      --liftEffect $ AJ.fetchAllEntries
+      pure $ entry
 
 entryListWidget :: forall a. Array Entry -> Widget HTML a
 entryListWidget entries = D.div [ S.entryList ] $ map entryWidget entries
@@ -54,7 +51,7 @@ glossaryWidget entries = do
       [ entryListWidget sortedEntries
       , newEntryWidget mempty
       ]
-  glossaryWidget $ newEntry `cons` sortedEntries
+  glossaryWidget $ sortedEntries -- TODO: ADD the new entry to list
   where
   sortedEntries = sortWith (_.term) entries
 

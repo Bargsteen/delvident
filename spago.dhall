@@ -7,11 +7,15 @@ You can edit this file as you like.
 , dependencies =
   [ "aff"
   , "aff-promise"
+  , "affjax"
+  , "argonaut"
+  , "argonaut-generic"
   , "concur-core"
   , "concur-react"
   , "console"
   , "effect"
   , "foreign"
+  , "foreign-generic"
   ]
 , packages = ./packages.dhall
 }

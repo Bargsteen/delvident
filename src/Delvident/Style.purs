@@ -1,4 +1,4 @@
-module Style where
+module Delvident.Styles where
 
 import Concur.React.Props as P
 
