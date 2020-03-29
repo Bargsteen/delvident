@@ -1,5 +1,5 @@
 module Delvident.Styles where
-
+ {-
 import Concur.React.Props as P
 
 -- Entry
@@ -46,3 +46,4 @@ page = toClasses "center ph4-ns ph3 mw8 mv3 avenir"
 -- Util
 toClasses :: forall a. String -> P.ReactProps a
 toClasses = P.className
+-}

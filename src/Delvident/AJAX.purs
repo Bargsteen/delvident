@@ -1,5 +1,5 @@
 module Delvident.AJAX where
-
+ {-
 import Prelude
 import Affjax as AX
 import Affjax.ResponseFormat as ResponseFormat
@@ -17,3 +17,4 @@ fetchAllEntries = do
   case result of
     Left err -> log $ "GET /entries response failed to decode: " <> AX.printError err
     Right json -> log $ "GET /entries reponse: " <> "Entries received!"
+-}

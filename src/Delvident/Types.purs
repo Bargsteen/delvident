@@ -1,5 +1,5 @@
 module Delvident.Types where
-
+ {-
 type EntryId
   = Int
 
@@ -8,3 +8,4 @@ type Entry
 
 type NewEntry
   = { term :: String, definition :: String }
+-}

@@ -9,19 +9,20 @@
     "build": "spago build",
     "dev": "rimraf dist && spago build && parcel build --public-url ./ index.html",
     "prod": "rimraf prod dist && mkdir prod && spago bundle-app --main Main --to prod/index.prod.js && java -jar closure-compiler/closure-compiler-v20190301.jar --js prod/index.prod.js --js_output_file prod/index.js && cp index.html prod/index.html && parcel build --public-url ./ prod/index.html && rimraf prod",
-    "start": "spago build && parcel index.html",
+    "start": "spago bundle-app --main Client --to=public/bundle.js && parcel public/index.html",
     "watch": "spago build && parcel watch index.html"
   },
   "author": "Kasper Dissing Bargsteen <kasper@bargsteen.com> (https://github.com/Bargsteen)",
   "license": "MIT",
   "devDependencies": {
     "parcel-bundler": "^1.12.4",
-    "purescript": "^0.13.5",
+    "purescript": "^0.13.6",
     "rimraf": "^3.0.0",
     "spago": "^0.12.1"
   },
   "dependencies": {
     "faunadb": "^2.11.1",
+    "jquery": "^3.4.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
   }

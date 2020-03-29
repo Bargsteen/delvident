@@ -1,5 +1,5 @@
 module Delvident.App where
-
+ {-
 import Prelude
 import Concur.Core (Widget)
 import Concur.React (HTML)
@@ -67,3 +67,4 @@ defaultPageWidget entries = do
     [ titleWidget "delvident"
     , glossaryWidget entries
     ]
+-}

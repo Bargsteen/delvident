@@ -16,6 +16,14 @@ You can edit this file as you like.
   , "effect"
   , "foreign"
   , "foreign-generic"
+  , "hypertrout"
+  , "indexed-monad"
+  , "jquery"
+  , "newtype"
+  , "nodetrout"
+  , "smolder"
+  , "trout"
+  , "trout-client"
   ]
 , packages = ./packages.dhall
 }
