@@ -1,33 +1,32 @@
 module Client where
 
-import Prelude hiding (div)
-import Data.Foldable (foldMap)
+import Prelude
+
 import Effect (Effect)
-import Effect.Aff (Aff, launchAff, attempt)
+import Effect.Aff (Aff, launchAff)
 import Effect.Class (liftEffect)
-import JQuery (body, setHtml)
-import API
-import Text.Smolder.Renderer.String (render)
-import Type.Trout.Client (asClients)
-import Type.Trout.ContentType.HTML (encodeHTML)
 import Effect.Class.Console (log)
+import Type.Trout.Client (asClients)
+
+import Delvident.API
+import Delvident.Types
 
 main :: Effect Unit
 main = do
   log "Running client!"
-  b <- body
   void
     $ launchAff do
-        ts <- clients.tasks."GET"
-        singleTask <- (clients.task 1)."GET"
-        liftEffect $ log $ "I got this single task: " <> show singleTask
-        liftEffect <<< log <<< show $ ts
-        liftEffect (setHtml (foldMap (render <<< encodeHTML) ts) b)
+        entries <- clients.entries.list."GET"
+        liftEffect <<< log <<< show $ entries
 
 
 clients
-  :: {
-       tasks :: { "GET" :: Aff (Array Task) }
-     , task :: TaskId -> { "GET" :: Aff Task }
+  :: { entries ::
+        { list :: { "GET" :: Aff (Array Entry) }
+        , item :: EntryId -> { "GET" :: Aff Entry }
+       {- , create :: NewEntry -> { "POST" :: Aff Entry }
+        , update :: EntryId -> NewEntry -> { "UPDATE" :: Aff Entry }
+        , delete :: EntryId -> { "DELETE" :: Aff Unit }-}
+        }
      }
 clients = asClients api

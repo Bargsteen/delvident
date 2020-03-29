@@ -4,7 +4,7 @@ type EntryId
   = Int
 
 type Entry
-  = { id :: EntryId | NewEntry }
+  = { id :: EntryId, term :: String, definition :: String }
 
 type NewEntry
   = { term :: String, definition :: String }
