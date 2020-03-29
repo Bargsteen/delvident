@@ -1,4 +1,4 @@
-module Delvident.API where
+module Delvident.Server.API where
 
 import Type.Proxy (Proxy(..))
 import Type.Trout (type (:/), type (:<|>), type (:=), type (:>), Capture, Resource)

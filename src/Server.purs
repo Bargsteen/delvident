@@ -20,7 +20,7 @@ import Node.Stream (end, write, writeString) as Stream
 import Nodetrout (HTTPError, error404, serve')
 
 import Delvident.Types
-import Delvident.API
+import Delvident.Server.API
 
 type AppM a
   = ExceptT HTTPError Aff a
@@ -65,7 +65,7 @@ serveStatic req res =
 
 main :: Effect Unit
 main = do
-  let port = 3000
+  let port = 3001
   handlers <- mkHandlers
   server <- createServer \req ->
               if String.take 4 (requestURL req) == "/api"

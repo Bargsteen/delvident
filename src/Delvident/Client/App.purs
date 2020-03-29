@@ -1,15 +1,19 @@
-module Delvident.App where
- {-
+module Delvident.Client.App where
+
 import Prelude
+
 import Concur.Core (Widget)
 import Concur.React (HTML)
 import Concur.React.DOM as D
 import Concur.React.Props as P
+import Concur.React.Run (runWidgetInDom)
 import Data.Array (cons, sortWith)
+import Effect (Effect)
 import Effect.Class (liftEffect)
-import Delvident.Styles as S
+
+import Delvident.Client.Styles as S
+import Delvident.Client.AJAX as AX
 import Delvident.Types (NewEntry, Entry)
-import Delvident.AJAX as AJ
 
 entryWidget :: forall a. Entry -> Widget HTML a
 entryWidget entry =
@@ -25,7 +29,7 @@ data NewEntryAction
   | Definition String
   | Submit
 
-newEntryWidget :: NewEntry -> Widget HTML NewEntry
+newEntryWidget :: NewEntry -> Widget HTML Entry
 newEntryWidget entry = do
   res <-
     D.div [ S.newEntry ]
@@ -39,7 +43,7 @@ newEntryWidget entry = do
     Definition d -> newEntryWidget (entry { definition = d })
     Submit -> do
       --liftEffect $ AJ.fetchAllEntries
-      pure $ entry
+      pure $ { id:1000, term: entry.term, definition: entry.definition }
 
 entryListWidget :: forall a. Array Entry -> Widget HTML a
 entryListWidget entries = D.div [ S.entryList ] $ map entryWidget entries
@@ -67,4 +71,6 @@ defaultPageWidget entries = do
     [ titleWidget "delvident"
     , glossaryWidget entries
     ]
--}
+
+run :: Array Entry -> Effect Unit
+run entries = runWidgetInDom "app" (defaultPageWidget entries)
