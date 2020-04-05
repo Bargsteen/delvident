@@ -116,6 +116,39 @@ let upstream =
 
 let overrides = {=}
 
-let additions = {=}
+let additions =
+  { postgresql-client =
+    { dependencies =
+        [ "aff"
+        , "arrays"
+        , "argonaut"
+        , "assert"
+        , "bifunctors"
+        , "bytestrings"
+        , "console"
+        , "datetime"
+        , "decimals"
+        , "effect"
+        , "either"
+        , "exceptions"
+        , "foldable-traversable"
+        , "foreign"
+        , "foreign-generic"
+        , "foreign-object"
+        , "js-date"
+        , "lists"
+        , "maybe"
+        , "newtype"
+        , "nullable"
+        , "prelude"
+        , "psci-support"
+        , "test-unit"
+        , "transformers"
+        , "tuples"
+        ]
+  , repo = "https://github.com/rightfold/purescript-postgresql-client.git"
+  , version = "v3.0.2"
+    }
+  }
 
 in  upstream // overrides // additions

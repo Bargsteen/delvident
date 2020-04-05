@@ -21,27 +21,8 @@ import Nodetrout (HTTPError, error404, serve')
 
 import Delvident.Types
 import Delvident.Server.API
-
-type AppM a
-  = ExceptT HTTPError Aff a
-
-mkHandlers
-  :: Effect
-       { entries ::
-         { list :: { "GET" :: AppM (Array Entry) }
-         , item :: EntryId -> { "GET" :: AppM Entry }
-         }
-       }
-mkHandlers = do
-  pure
-    { entries:
-      { list: { "GET": pure entries }
-      , item: const { "GET": pure e1}
-      }
-    }
-    where
-      e1 = {id: 1, term: "t1", definition: "d1"}
-      entries = [e1, {id: 2, term: "t2", definition: "d2"}]
+import Delvident.Server.Handlers as Handlers
+import Delvident.Server.Persistence as Pers
 
 
 serveStatic :: Request -> Response -> Effect Unit
@@ -66,7 +47,8 @@ serveStatic req res =
 main :: Effect Unit
 main = do
   let port = 3001
-  handlers <- mkHandlers
+  dbPool <- Pers.newPool "delvident" "kasper"
+  handlers <- Handlers.mkHandlers dbPool
   server <- createServer \req ->
               if String.take 4 (requestURL req) == "/api"
                 then serve' api handlers (const $ pure unit) req

@@ -21,6 +21,7 @@ You can edit this file as you like.
   , "jquery"
   , "newtype"
   , "nodetrout"
+  , "postgresql-client"
   , "smolder"
   , "trout"
   , "trout-client"

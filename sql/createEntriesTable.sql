@@ -1,0 +1,5 @@
+CREATE TABLE entries(
+  id SERIAL PRIMARY KEY,
+  term VARCHAR (200) NOT NULL,
+  definition TEXT NOT NULL
+);
