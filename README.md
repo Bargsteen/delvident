@@ -30,8 +30,8 @@ So you get immediate recompilation even with Purescript.
 ## Roadmap
 
 ### v0.1
-- [ ] Add terms with definitions
-- [ ] Display lists of terms, sorted by name
+- [x] Add terms with definitions
+- [x] Display lists of terms, sorted by name
 
 ### v0.2
 - [ ] Edit terms
