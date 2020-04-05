@@ -7,9 +7,9 @@ import Concur.React (HTML)
 import Concur.React.DOM as D
 import Concur.React.Props as P
 import Concur.React.Run (runWidgetInDom)
-import Data.Array (cons, sortWith)
+import Data.Array (sortWith)
 import Effect (Effect)
-import Effect.Class (liftEffect)
+import Effect.Aff.Class (liftAff)
 
 import Delvident.Client.Styles as S
 import Delvident.Client.AJAX as AX
@@ -29,7 +29,7 @@ data NewEntryAction
   | Definition String
   | Submit
 
-newEntryWidget :: NewEntry -> Widget HTML Entry
+newEntryWidget :: NewEntry -> Widget HTML Unit
 newEntryWidget entry = do
   res <-
     D.div [ S.newEntry ]
@@ -42,20 +42,19 @@ newEntryWidget entry = do
     Term t -> newEntryWidget (entry { term = t })
     Definition d -> newEntryWidget (entry { definition = d })
     Submit -> do
-      --liftEffect $ AJ.fetchAllEntries
-      pure $ { id:1000, term: entry.term, definition: entry.definition }
+      liftAff $ AX.createEntry entry
 
 entryListWidget :: forall a. Array Entry -> Widget HTML a
 entryListWidget entries = D.div [ S.entryList ] $ map entryWidget entries
 
 glossaryWidget :: forall a. Array Entry -> Widget HTML a
 glossaryWidget entries = do
-  newEntry <-
-    D.div [ S.glossary ]
+  D.div [ S.glossary ]
       [ entryListWidget sortedEntries
       , newEntryWidget mempty
       ]
-  glossaryWidget $ sortedEntries -- TODO: ADD the new entry to list
+  updatedEntries <- liftAff $ AX.fetchEntryList
+  glossaryWidget $ updatedEntries
   where
   sortedEntries = sortWith (_.term) entries
 
