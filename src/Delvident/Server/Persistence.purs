@@ -1,14 +1,15 @@
 module Delvident.Server.Persistence (withConnection, Connection, Pool, Error, PersistM, newPool,
-                              insertEntry, fetchAllEntries, updateEntry, deleteEntry) where
+                              createEntry, fetchAllEntries, updateEntry, deleteEntry) where
 
 import Prelude
 
 import Control.Monad.Except.Trans (ExceptT, runExceptT)
 import Data.Maybe (Maybe(..))
 import Database.PostgreSQL.PG as PG
-import Delvident.Types (Entry, NewEntry, EntryId, toPNewEntry, toEntry)
 import Effect (Effect)
 import Effect.Aff (Aff)
+
+import Delvident.Types (EntryId, NewEntry, Entry, toEntry, toPNewEntry)
 
 type Connection
   = PG.Connection
@@ -32,8 +33,11 @@ newPool dbName username = PG.newPool $ ((PG.defaultPoolConfiguration dbName) { u
 {------------------------------------------------------------------------------}
 {-                                  Queries                                   -}
 {------------------------------------------------------------------------------}
-insertEntryQuery :: String
-insertEntryQuery = "INSERT INTO entries (term, definition) VALUES ($1, $2)"
+createEntryQuery :: String
+createEntryQuery = "INSERT INTO entries (term, definition) VALUES ($1, $2)"
+
+fetchEntryQuery :: String
+fetchEntryQuery = "SELECT id, term, definition FROM entries where id = $1"
 
 fetchAllEntriesQuery :: String
 fetchAllEntriesQuery = "SELECT id, term, definition FROM entries"
@@ -47,8 +51,8 @@ deleteEntryQuery = "DELETE FROM entries WHERE id = $1"
 {------------------------------------------------------------------------------}
 {-                                  Actions                                   -}
 {------------------------------------------------------------------------------}
-insertEntry :: NewEntry -> PG.Connection -> PersistM Unit
-insertEntry newEntry conn = PG.execute conn (PG.Query insertEntryQuery) $ toPNewEntry newEntry
+createEntry :: NewEntry -> PG.Connection -> PersistM Unit
+createEntry newEntry conn = PG.execute conn (PG.Query createEntryQuery) $ toPNewEntry newEntry
 
 fetchAllEntries :: PG.Connection -> PersistM (Array Entry)
 fetchAllEntries conn = map toEntry <$> PG.query conn (PG.Query fetchAllEntriesQuery) PG.Row0

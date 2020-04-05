@@ -8,7 +8,7 @@ import Effect (Effect)
 import Effect.Aff (Aff)
 
 import Delvident.Server.Persistence as P
-import Delvident.Types (Entry, EntryId)
+import Delvident.Types (Entry, EntryId, NewEntry)
 
 
 type AppM a
@@ -18,16 +18,20 @@ mkHandlers
   :: P.Pool -> Effect
        { entries ::
          { list :: { "GET" :: AppM (Array Entry) }
-         , item :: EntryId -> { "GET" :: AppM Entry }
+         , create :: NewEntry -> { "POST" :: AppM Unit }
+         , update :: EntryId -> NewEntry -> { "PUT" :: AppM Unit }
+         , delete :: EntryId -> { "DELETE" :: AppM Unit }
          }
        }
 mkHandlers pool = do
   pure
     { entries:
       { list: { "GET": execute P.fetchAllEntries }
-      , item: const { "GET": pure e1}
+      , create: \newEntry -> { "POST": execute (P.createEntry newEntry)}
+      , update: \id -> (\newEntry -> { "PUT": execute (P.updateEntry id newEntry)})
+      , delete: \id -> { "DELETE": execute (P.deleteEntry id) }
       }
     }
     where
+      execute :: forall a. (P.Connection -> P.PersistM a) -> AppM a
       execute action = withExceptT (const error500) $ P.withConnection pool \conn -> action conn
-      e1 = {id: 300, term: "testT", definition: "defT"}
