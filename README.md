@@ -26,32 +26,3 @@ So you get immediate recompilation even with Purescript.
 ### Build production artifacts
 
 > ```npm run prod```
-
-## Roadmap
-
-### v0.1
-- [x] Add terms with definitions
-- [x] Display lists of terms, sorted by name
-
-### v0.2
-- [ ] Edit terms
-- [ ] Add terms *without* definitions
-- [ ] Give confidence in definition
-
-### v0.3
-- [ ] Link to other terms easily
-- [ ] Show term with missing definitions
-
-### v0.4
-- [ ] Admin can create users (perhaps directly in db)
-- [ ] Login (for added safety)
-
-### v0.5
-- [ ] Add tags to terms
-- [ ] Navigate with by tags
-
-### v0.6
-- [ ] Show definitions of related terms on hover.
-
-### v0.7
-- [ ] Add images and perhaps markdown to definitions
